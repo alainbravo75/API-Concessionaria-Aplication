@@ -23,7 +23,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.get('/', (req, res) =>{
     res.send('ok')
 
-    .create({carro: "Chevrolet", modelo: "Onix"})
+    product.create({carro: "Chevrolet", modelo: "Onix"})
 });
 
 app.get('/new', (req, res) => {
@@ -38,10 +38,9 @@ app.listen(8081, () => {
 
 
 
+//console.log('ola mundo')
 
 
 
 
 
-
-console.log('ola mundo')
