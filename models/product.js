@@ -1,30 +1,37 @@
 const mongoose = require('../database');
 
-const productSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
     carro:{
-        type: String,
-        require: true
+        type: "String",
+        required: true
     },
     descricao:{
-        type: String,
-        require: true
+        type: "String",
+        required: true
     },
-    modelo: {String,
-    require: true
+    modelo:{ 
+        type: "String",
+        required: true
+    
     },
-    ano: {
-        type: new Date,
-        require: true
+    ano:{
+        type: Date,
+        required: true
     },
-    cor: {
-        type: String,
-        require: true
+    cor:{
+        type: "String",
+        required: true
     },
     preco:{
-        type: real,
-        require: true
+        type: Number,
+        required: true
     },
-    quantidade: {number,
-    require: true
-    },
+    quantidade: {
+        type: Number,
+    required: true
+    }
 })
+
+const productCar = mongoose.model('product', schema);
+
+module.exports = productCar;
