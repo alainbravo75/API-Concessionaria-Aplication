@@ -1,12 +1,15 @@
 const express = require('express');
+const app = express();
 const mongoose = require('mongoose');
+const productCar = require('./models/product')
 require('dotenv').config();
+
+const port = 8081;
 
 const bodyParser = require('body-parser');
 
-const app = express();
 //conectar mongoose com express
-mongoose.connect('mongodb://localhost/carros'), {
+mongoose.connect('mongodb+srv://projetocarro:carro@cluster0.7ataw.mongodb.net/databaseconcessionaria?retryWrites=true&w=majority'), {
     useUnifieldTopology: true,
     useNewUrlParser: true
 }, console.log('Connected to database');
@@ -19,7 +22,7 @@ app.get('/', (req, res) =>{
     res.send('ok')
 })
 
-app.listen(8081, () => {
+app.listen(port, () => {
     console.log('Server running')
 })
 
