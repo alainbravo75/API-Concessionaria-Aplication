@@ -5,17 +5,16 @@ const schema = new mongoose.Schema({
         type: "String",
         required: true
     },
+    modelo:{ 
+        type: "String",
+        required: true
+    },
     descricao:{
         type: "String",
         required: true
     },
-    modelo:{ 
-        type: "String",
-        required: true
-    
-    },
     ano:{
-        type: Date,
+        type: Number,
         required: true
     },
     cor:{
@@ -28,9 +27,10 @@ const schema = new mongoose.Schema({
     },
     quantidade: {
         type: Number,
-    required: true
-    }
-})
+        required: true
+    },
+    carImage: "string"
+});
 
 const productCar = mongoose.model('product', schema);
 
