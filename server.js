@@ -38,79 +38,47 @@ app.get('/', async (req, res) => {
 //rota POST
 app.post('/product', async (req, res) => {
     
-    const {carro, descricao, modelo, ano, cor, preco, quantidade} = req.body;
+    const {carro, modelo, descricao, ano, cor, preco, quantidade, carImage} = req.body;
     const car = {
         carro,
-        descricao,
         modelo,
+        descricao,
         ano,
         cor,
         preco,
-        quantidade
+        quantidade,
+        carImage
     }
     try {
             const newProduct = await productCar.create(car)
             return res.status(200).send(newProduct)
             } catch(err) {
-                return res.status(400).send(err)
+                return res.status(400).json(err)
             }
         }),
 
-        //Requisição GET para lista todos produtos
+        //Listar todos os carros cadastrados com requisição GET
 
+        app.get('/products', async(req, res) => {
+            try {
+                const listProduct = await productCar.find(req.body)
+                return res.status(200).json(listProduct)
+            } catch(err) {
+                return res.status(40).json(err)
+            }
+        });
+
+        //listar um carro específico com id
         app.get('/product/:product_id', async(req, res) => {
             try {
-                const listProduct = await productCar.findById(car)
-                return res. status(200).send(listProduct)
+                const product_id = await productCar.findById(req.body)
+                return res.status(200).json(product_id)
             } catch(err) {
                 return res.status(400).send(err)
             }
         });
-
-        //metodos provisórios
-    /*
-        async updateProduct(req, res) {
     
-            try {
-    
-            } catch(err) {
-                return res.status(400).send(err)
-            }
-        },
-         async deleteProduct(req, res) {
-    
-            try {} catch(err) {
-                return res.status(400).send(err)
-            }
-         },
-         async getProductById(req, res) {
-    
-            try {} catch(err) {
-                return res.status(400).send(err)
-            }
-         }
-
-         */
-   // productCar.create(productCar)
-  //  console.log(req.body)
-    
-   // res.send(product)
-  // res.json({car})
-//});
-
-
-
-
-//Rota de PUT
-/*
-app.get('/product/:productId', (req, res) => {
-    res.send('A requisição PUT foi chamada')
-})
-app.put('/product/:productId', (req, res) => {
-    console.log(req.body)
-    res.status(200).send({message: "Produto atualizado com sucesso!"})
-})
-*/
+  
 app.listen(port, () => {
     console.log('Server running')
 })
