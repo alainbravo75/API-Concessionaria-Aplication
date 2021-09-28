@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require('mongoose');
 const productCar = require('./models/product')
 
+
 require('dotenv').config();
 
 const port = 8081;
@@ -26,16 +27,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/', (req, res) =>{
-  res.send('ok')
+  res.send('CONCESSIONÁRIA DE CARROS')
    // productCar.create({carro: 'YUNDAI', descricao: 'Novo carro', modelo: 'Yaris', ano: (2021, 05 , 15), cor: "verde", preco: 23.500, quantidade: 5 })
 });
 
 //Cadastrando um produto
-app.get('/', async (req, res) => {
-    res.json({car})
-});
+//app.get('/product/:product_id', async (req, res) => {
+ //   res.json({car})
+//});
 
-//rota POST
+//Cadastrando um produto com POST
 app.post('/product', async (req, res) => {
     
     const {carro, modelo, descricao, ano, cor, preco, quantidade, carImage} = req.body;
@@ -59,26 +60,51 @@ app.post('/product', async (req, res) => {
 
         //Listar todos os carros cadastrados com requisição GET
 
-        app.get('/products', async(req, res) => {
+        app.get('/listar', async(req, res) => {
             try {
                 const listProduct = await productCar.find(req.body)
                 return res.status(200).json(listProduct)
             } catch(err) {
-                return res.status(40).json(err)
+                return res.status(400).json(err)
             }
         });
 
         //listar um carro específico com id
-        app.get('/product/:product_id', async(req, res) => {
+        app.get('/get/:id', async(req, res) => {
             try {
-                const product_id = await productCar.findById(req.body)
-                return res.status(200).json(product_id)
+                const product = await productCar.findById(req.params.id)
+                return res.status(200).json(product)
             } catch(err) {
-                return res.status(400).send(err)
+                return res.status(400).json(err)
             }
         });
     
+
+
+        //Método PUT
+
+        app.put('/atualisar/:id', async (req, res) => {
+            try {
+                const updateProduct = await productCar.updateOne(req.body)
+                return res.status(200).json(updateProduct)
+                console.log("Produto atualizado com sucesso")
+            } catch(err) {
+                return res.status(400).send(err)
+            } 
+
+        });
+
+        //Requisição para deletar um carro
+        app.delete('/deletar/:id', async(req, res) => {
+            try {
+                const getDelete = await productCar.deleteOne({where: {_id: req.params.id}})
+                return res.status(200).json(getDelete)
+            } catch(err) {
+                return res.status(400).json(err)
+            }
+        });
+        
   
 app.listen(port, () => {
     console.log('Server running')
-})
+});
