@@ -83,11 +83,10 @@ app.post('/product', async (req, res) => {
 
         //Método PUT
 
-        app.put('/atualisar/:id', async (req, res) => {
+        app.put('/atualizar/:id', async (req, res) => {
             try {
                 const updateProduct = await productCar.updateOne(req.body)
-                return res.status(200).json(updateProduct)
-                console.log("Produto atualizado com sucesso")
+                return res.status(200).send('produto atualizado con sucesso!')
             } catch(err) {
                 return res.status(400).send(err)
             } 
@@ -98,7 +97,7 @@ app.post('/product', async (req, res) => {
         app.delete('/deletar/:id', async(req, res) => {
             try {
                 const getDelete = await productCar.deleteOne({where: {_id: req.params.id}})
-                return res.status(200).json(getDelete)
+                return res.status(200).send('Produto deletado no banco de dados')
             } catch(err) {
                 return res.status(400).json(err)
             }
