@@ -87,9 +87,9 @@ app.post('/carros', async (req, res) => {
 
         app.put('/carros/:id', async (req, res) => {
             try {
-                const findById = {where: {_id: req.params.id}}
-                await productCar.updateOne(findById, req.body)
-                const updateProduct = await productCar.findOne(findById)
+                
+                await productCar.findByIdAndUpdate(req.params.id, req.body)
+                const updateProduct = await productCar.findById(req.params.id)
                 return res.status(200).send(updateProduct)
             } catch(err) {
                 return res.status(400).send(err)
@@ -100,7 +100,7 @@ app.post('/carros', async (req, res) => {
         //Requisição para deletar um carro
         app.delete('/carros/:id', async(req, res) => {
             try {
-                const getDelete = await productCar.deleteOne({where: {_id: req.params.id}})
+                const getDelete = await productCar.findByIdAndRemove(req.params.id)
                 return res.status(200).send('Produto deletado no banco de dados')
             } catch(err) {
                 return res.status(400).json(err)
