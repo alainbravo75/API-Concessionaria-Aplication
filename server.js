@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const mongoose = require('mongoose');
 const productCar = require('./models/product');
-//const swaggerUi = require('swagger-ui-express');
-//const swaggerDocument = require('./swagger.json');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 
 require('dotenv').config();
@@ -16,7 +16,7 @@ const bodyParser = require('body-parser');
 const urlDB = process.env.MONGODB_URL
 
 //Documentação
-//app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //conectar mongoose com express
 mongoose.connect('mongodb+srv://projetocarro:carro@cluster0.7ataw.mongodb.net/databaseconcessionaria?retryWrites=true&w=majority'), {
@@ -41,9 +41,9 @@ app.get('/', (req, res) =>{
 //Cadastrando um produto com POST
 app.post('/carros', async (req, res) => {
     
-    const {carro, modelo, descricao, ano, cor, preco, quantidade, carImage} = req.body;
+    const {marca, modelo, descricao, ano, cor, preco, quantidade, carImage} = req.body;
     const car = {
-        carro,
+        marca,
         modelo,
         descricao,
         ano,
@@ -83,7 +83,7 @@ app.post('/carros', async (req, res) => {
     
 
 
-        //Método PUT
+        //Método PUT para atualizar um carro especifico com id
 
         app.put('/carros/:id', async (req, res) => {
             try {
