@@ -1,7 +1,7 @@
 const mongoose = require('../database');
 
 const schema = new mongoose.Schema({
-    carro:{
+    marca:{
         type: "String",
         required: true
     },
