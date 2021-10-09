@@ -10,7 +10,7 @@ require('dotenv').config();
 
 const port = 8081;
 
-//chamando o j.son na requisições
+//chamando o json na requisição
 app.use(express.json());
 const bodyParser = require('body-parser');
 const urlDB = process.env.MONGODB_URL
@@ -23,20 +23,12 @@ mongoose.connect('mongodb+srv://projetocarro:carro@cluster0.7ataw.mongodb.net/da
     useUnifieldTopology: true,
     useNewUrlParser: true
 }, console.log('Connected to database');
+
 //para entender quando enviamos informação de requisição com json
 app.use(bodyParser.json());
+
 //para decodar parametros url 
 app.use(bodyParser.urlencoded({extended: false}));
-
-app.get('/', (req, res) =>{
-  res.send('CONCESSIONÁRIA DE CARROS')
-   // productCar.create({carro: 'YUNDAI', descricao: 'Novo carro', modelo: 'Yaris', ano: (2021, 05 , 15), cor: "verde", preco: 23.500, quantidade: 5 })
-});
-
-//Cadastrando um produto
-//app.get('/product/:product_id', async (req, res) => {
- //   res.json({car})
-//});
 
 //Cadastrando um produto com POST
 app.post('/carros', async (req, res) => {
@@ -50,11 +42,11 @@ app.post('/carros', async (req, res) => {
         cor,
         preco,
         quantidade,
-        carImage
+        carImage,
     }
     try {
             const newProduct = await productCar.create(car)
-            return res.status(200).send(newProduct)
+            return res.status(201).send(newProduct)
             } catch(err) {
                 return res.status(400).json(err)
             }
@@ -67,35 +59,34 @@ app.post('/carros', async (req, res) => {
                 const listProduct = await productCar.find(req.body)
                 return res.status(200).json(listProduct)
             } catch(err) {
-                return res.status(400).json(err)
-            }
-        });
-
-        //listar um carro específico com id
-        app.get('/carros/:id', async(req, res) => {
-            try {
-                const product = await productCar.findById(req.params.id)
-                return res.status(200).json(product)
-            } catch(err) {
                 return res.status(404).json(err)
             }
         });
-    
 
-
-        //Método PUT para atualizar um carro especifico com id
-
-        app.put('/carros/:id', async (req, res) => {
+        //Listar um carro específico com id
+        app.get('/carros/:id', async(req, res) => {
             try {
+                const product = await productCar.findById(req.params.id)
+                if (!product) return res.status(404).json(err) 
                 
-                await productCar.findByIdAndUpdate(req.params.id, req.body)
-                const updateProduct = await productCar.findById(req.params.id)
-                return res.status(200).send(updateProduct)
+                return res.status(200).json(product)
             } catch(err) {
-                return res.status(400).send(err)
-            } 
-
+                return res.status(404).send("carros não encontrado")
+            }
         });
+
+       //Atualizar um carro com método PUT
+
+       app.put('/carros/:id', async (req, res) => {
+        try {
+            
+            await productCar.findByIdAndUpdate(req.params.id, req.body)
+            const updateProduct = await productCar.findById(req.params.id)
+            return res.status(201).send(updateProduct)
+        } catch(err) {
+            return res.status(400).send(err)
+        } 
+    });
 
         //Requisição para deletar um carro
         app.delete('/carros/:id', async(req, res) => {
@@ -106,7 +97,6 @@ app.post('/carros', async (req, res) => {
                 return res.status(400).json(err)
             }
         });
-        
   
 app.listen(port, () => {
     console.log('Server running')
