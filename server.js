@@ -13,13 +13,13 @@ const port = 8081;
 //chamando o json na requisição
 app.use(express.json());
 const bodyParser = require('body-parser');
-const urlDB = process.env.MONGODB_URL
+const urlDB = process.env.MONGO_URL
 
 //Documentação
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //conectar mongoose com express
-mongoose.connect('mongodb+srv://projetocarro:carro@cluster0.7ataw.mongodb.net/databaseconcessionaria?retryWrites=true&w=majority'), {
+mongoose.connect(process.env.MONGO_URI), {
     useUnifieldTopology: true,
     useNewUrlParser: true
 }, console.log('Connected to database');
@@ -94,7 +94,7 @@ app.post('/carros', async (req, res) => {
                 const getDelete = await productCar.findByIdAndRemove(req.params.id)
                 return res.status(200).send('Produto deletado no banco de dados')
             } catch(err) {
-                return res.status(400).json(err)
+                return res.status(404).json(err)
             }
         });
   
