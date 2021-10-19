@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "Projeto de sistema para o dono da concessionária, no qual ele vai poder cadastrar os modelos que vão ser oferecidos ao público, com a descrição, características, preço e disponibilidade.",
+    "description": "Projeto de sistema para o dono da concessionária, no qual ele vai poder cadastrar os carros disponíveis no estoque, com a descrição, características, preço e disponibilidade.",
     "version": "1.0.0",
     "title": "Api_CONCESSIONÁRIA DE CARROS",
     "contact": {
@@ -48,11 +48,8 @@
           }
         ],
         "responses": {
-          "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/carros"
-            }
+          "201": {
+            "description": "successful operation"
           },
           "400": {
             "description": "Dado inválido"
@@ -99,13 +96,10 @@
         ],
         "responses": {
           "200": {
-            "description": "successful operation",
-            "schema": {
-              "$ref": "#/definitions/carros"
-            }
+            "description": "successful operation"
           },
           "404": {
-            "description": "carros não encontrado"
+            "description": "carro não encontrado"
           }
         }
       },
@@ -123,15 +117,8 @@
           {
             "name": "Id",
             "in": "path",
-            "description": "ID do carro atualizado",
+            "description": "carro atualizado",
             "required": true,
-            "type": "string"
-            
-          },
-          {
-            "name": "status",
-            "in": "formData",
-            "required": false,
             "type": "string"
           },
           {
@@ -149,10 +136,8 @@
         ],
         "responses": {
           "200": {
-            "description": "Produto Atualizado",
-            "schema": {
-              "$ref": "#/definitions/carros"
-            }
+            "description": "Produto Atualizado"
+            
           },
         
           "400": {
@@ -183,7 +168,7 @@
           "200": {
             "description": "Produto deletado do banco de dados"
           },
-          "400": {
+          "404": {
             "description": "Carro não encontrado"
           }
         }
